@@ -31,3 +31,60 @@ class Workers(tag: Tag) extends Table[Worker](tag, "Workers") {
   override def * : ProvenShape[Worker] = (pass_id, surname, name, patronym) <> (Worker.tupled, Worker.unapply)
 }
 
+object Rooms {
+  val table = TableQuery[Rooms]
+}
+
+class RoomsRep(db: Database) {
+  val table = TableQuery[Rooms]
+
+  def create(room: Room): Future[Room] = {
+    db.run(table returning table += room)
+  }
+
+  def update(room: Room): Future[Int] = {
+    db.run(table.filter(_.number === room.number).update(room))
+  }
+
+  def delete(room: Room): Future[Int] = {
+    db.run(table.filter(_.number === room.number).delete)
+  }
+}
+object Customers {
+  val table = TableQuery[Customers]
+}
+
+class CustomersRep(db: Database) {
+  val table = TableQuery[Customers]
+
+  def create(customer: Customer): Future[Customer] = {
+    db.run(table returning table += customer)
+  }
+
+  def update(customer: Customer): Future[Int] = {
+    db.run(table.filter(_.pass_id === customer.pass_id).update(customer))
+  }
+
+  def delete(customer: Customer): Future[Int] = {
+    db.run(table.filter(_.pass_id === customer.pass_id).delete)
+  }
+}
+object Workers {
+  val table = TableQuery[Workers]
+}
+
+class WorkersRep(db: Database) {
+  val table = TableQuery[Workers]
+
+  def create(worker: Worker): Future[Worker] = {
+    db.run(table returning table += worker)
+  }
+
+  def update(worker: Worker): Future[Int] = {
+    db.run(table.filter(_.pass_id === worker.pass_id).update(worker))
+  }
+
+  def delete(worker: Worker): Future[Int] = {
+    db.run(table.filter(_.pass_id === worker.pass_id).delete)
+  }
+}
