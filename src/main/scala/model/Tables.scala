@@ -14,10 +14,10 @@ class Rooms(tag: Tag) extends Table[Room](tag, "Rooms") {
 }
 
 class Customers(tag: Tag) extends Table[Customer](tag, "Customers") {
-  def pass_id: Rep[Int] = column[Int]("number")
-  def surname: Rep[String] = column[String]("positions")
-  def name: Rep[String] = column[String]("Price per day")
-  def patronym: Rep[String] =  column[String]("vacancy")
+  def pass_id: Rep[Int] = column[Int]("PassPort_id")
+  def surname: Rep[String] = column[String]("Surname")
+  def name: Rep[String] = column[String]("Name")
+  def patronym: Rep[Option[String]] =  column[Option[String]]("Patronym(optional)", O.Default(None))
   def inDate: Rep[LocalDate] =  column[LocalDate]("Date of arrival")
   def room: Rep[Int] = column[Int]("room of customer")
   override def * : ProvenShape[Customer] = (pass_id, surname, name, patronym, inDate, room) <> (Customer.tupled, Customer.unapply)
@@ -27,7 +27,7 @@ class Workers(tag: Tag) extends Table[Worker](tag, "Workers") {
   def pass_id: Rep[Int] = column[Int]("number")
   def surname: Rep[String] = column[String]("positions")
   def name: Rep[String] = column[String]("Price per day")
-  def patronym: Rep[String] =  column[String]("vacancy")
+  def patronym: Rep[Option[String]] =  column[Option[String]]("vacancy")
   override def * : ProvenShape[Worker] = (pass_id, surname, name, patronym) <> (Worker.tupled, Worker.unapply)
 }
 

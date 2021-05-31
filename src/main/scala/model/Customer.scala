@@ -5,7 +5,7 @@ import java.time.LocalDate
 case class Customer(pass_id: Int,
                     surname: String,
                     name: String,
-                    patronym: String,
+                    patronym: Option[String],
                     inDate: LocalDate,
                     room: Int
                    )
