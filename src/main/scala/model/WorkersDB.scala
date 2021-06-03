@@ -12,10 +12,10 @@ import scala.concurrent.duration.Duration
 
 object WorkersDB {
   class Workers(tag: Tag) extends Table[Worker](tag, "Workers") {
-    def pass_id: Rep[String] = column[String]("number")
-    def surname: Rep[String] = column[String]("positions")
-    def name: Rep[String] = column[String]("Price per day")
-    def patronym: Rep[Option[String]] =  column[Option[String]]("vacancy")
+    def pass_id: Rep[String] = column[String]("pass_id")
+    def surname: Rep[String] = column[String]("surname")
+    def name: Rep[String] = column[String]("name")
+    def patronym: Rep[String] =  column[String]("patronym")
     override def * : ProvenShape[Worker] = (pass_id, surname, name, patronym) <> (Worker.tupled, Worker.unapply)
   }
 }
@@ -24,19 +24,18 @@ object WorkersDB {
 class WorkersDB{
   private val workers: TableQuery[Workers] = TableQuery[Workers]
   val db = Database.forConfig("mydb")
-  private val sampleWorkers = Seq(
-    Worker( "4715518977", "Kovba", "Alexey", Some("Michailovich"), )
-  )
+  private val sampleWorker =
+    Worker("4715518977", "Kovba", "Alexey", "Michailovich" )
   def setup(): Unit = {
     db.run(workers.schema.create)
   }
   def clear(): Unit = {
     db.run(workers.delete)
   }
-  def addSampleContent(): Unit = {
-    db.add(sampleWorkers)
+  def addSampleContent(): Future[Worker] = {
+    db.run(workers returning workers += sampleWorker)
   }
-  def queryWorkers(): Future[Seq[workers]] = {
+  def queryWorkers(): Future[Seq[Worker]] = {
     db.run(workers.result)
   }
 }
