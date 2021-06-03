@@ -7,5 +7,6 @@ case class Customer(pass_id: Int,
                     name: String,
                     patronym: Option[String],
                     inDate: LocalDate,
+                    outDate: LocalDate,
                     room: Int
                    )
