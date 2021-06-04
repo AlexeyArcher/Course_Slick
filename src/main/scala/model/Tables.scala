@@ -4,7 +4,7 @@ import scala.concurrent.Future
 import slick.lifted.{ProvenShape, Tag}
 import slick.jdbc.MySQLProfile.api._
 import java.time.LocalDate
-
+/*
 class Rooms(tag: Tag) extends Table[Room](tag, "Rooms") {
   def number: Rep[Int] = column[Int]("number", O.PrimaryKey)
   def pos: Rep[Int] = column[Int]("positions")
@@ -83,3 +83,5 @@ class WorkersRep(db: Database) {
     db.run(table.filter(_.pass_id === worker.pass_id).delete)
   }
 }
+
+ */

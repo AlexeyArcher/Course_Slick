@@ -3,10 +3,9 @@ package model
 import slick.lifted.{ProvenShape, Tag}
 import model.WorkersDB.Workers
 
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
 import slick.jdbc.MySQLProfile.api._
 
-import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 
@@ -25,17 +24,34 @@ class WorkersDB{
   private val workers: TableQuery[Workers] = TableQuery[Workers]
   val db = Database.forConfig("mydb")
   private val sampleWorker =
-    Worker("4715518977", "Kovba", "Alexey", "Michailovich" )
+    Seq(Worker("4715518977", "Kovba", "Alexey", "Michailovich" ))
   def setup(): Unit = {
     db.run(workers.schema.create)
   }
   def clear(): Unit = {
     db.run(workers.delete)
   }
-  def addSampleContent(): Future[Worker] = {
-    db.run(workers returning workers += sampleWorker)
+  def addSampleContent(): Unit = {
+    add(sampleWorker)
   }
-  def queryWorkers(): Future[Seq[Worker]] = {
-    db.run(workers.result)
+  def queryWorkers(): Seq[Worker] = {
+    Await.result(db.run(workers.result), Duration.Inf)
   }
+  def add(items: Seq[Worker]): Unit = {
+    Await.result(db.run(workers ++= items), Duration.Inf)
+  }
+  def add(p: Worker): Unit = {
+    add(Seq(p))
+  }
+  def remove(items: Seq[Worker]): Unit = {
+    val qs = items.map { i =>
+      val q = workers.filter { p =>
+        p.pass_id === i.pass
+      }
+      q.delete
+    }
+
+    db.run(DBIO.seq(qs: _*))
+  }
+
 }
