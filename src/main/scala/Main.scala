@@ -4,7 +4,7 @@ import scalafx.scene.Scene
 import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.control.{Alert, Label, ProgressIndicator}
 import scalafx.scene.layout.{BorderPane, StackPane, VBox}
-import view.{WorkersView,WorkersViewModel, TaskRunner}
+import view.{TaskRunner, WorkersView, WorkersViewModel}
 
 object Main extends JFXApp {
 

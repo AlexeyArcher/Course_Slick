@@ -1,12 +1,14 @@
 package view
 
+import model.Worker
+import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Parent
-import scalafx.scene.control.{Button, ButtonBar, Label, TableColumn, TableView}
+import scalafx.scene.control._
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.text.Font
-import model.Worker
-import scalafx.collections.ObservableBuffer
+
+
 
 
 class WorkersView(val model: WorkersViewModel) {
@@ -16,13 +18,19 @@ class WorkersView(val model: WorkersViewModel) {
   private val table: TableView[Worker] = {
     // Define columns
 
-
+    val passIdColumn = new TableColumn[Worker, String] {
+      text = "pass_id"
+      cellValueFactory = {
+        _.value.pass_id
+      }
+      prefWidth = 100
+    }
     val surNameColumn = new TableColumn[Worker, String] {
       text = "Surname"
       cellValueFactory = {
         _.value.surname
       }
-      prefWidth = 180
+      prefWidth = 150
     }
 
     val NameColumn = new TableColumn[Worker, String] {
@@ -30,7 +38,7 @@ class WorkersView(val model: WorkersViewModel) {
       cellValueFactory = {
         _.value.name
       }
-      prefWidth = 180
+      prefWidth = 150
     }
 
     val patronymColumn = new TableColumn[Worker, String] {
@@ -38,17 +46,16 @@ class WorkersView(val model: WorkersViewModel) {
       cellValueFactory = {
         _.value.patronym
       }
-      prefWidth = 200
+      prefWidth = 150
     }
 
     // Build the table
     new TableView[Worker](model.items) {
-      columns ++= Seq(surNameColumn, NameColumn, patronymColumn)
+      columns ++= Seq(passIdColumn,surNameColumn, NameColumn, patronymColumn)
       margin = Insets(10, 0, 10, 0)
     }
   }
-  //model.selectedItems = table.selectionModel.value.selectedItems
-
+  model.selectedItems = table.selectionModel.value.selectedItems
   private val addButton = new Button {
     text = "Add"
     onAction = _ => model.onAddItem()

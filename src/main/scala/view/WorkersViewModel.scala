@@ -1,9 +1,9 @@
 package view
+import model.{Worker, WorkersDB}
 import scalafx.application.Platform
 import scalafx.beans.property.{BooleanProperty, ObjectProperty}
 import scalafx.collections.ObservableBuffer
 import scalafx.stage.Window
-import model.{WorkersDB, Worker}
 
 
 class WorkersViewModel {
@@ -30,7 +30,7 @@ class WorkersViewModel {
   def setUp(): Unit = {
     items.clear()
     workersDB.setup()
-    workersDB.addSampleContent()
+    items ++= workersDB.queryWorkers()
   }
 
   def onAddItem(): Unit = {
@@ -40,7 +40,7 @@ class WorkersViewModel {
     result match {
       case Some(worker) =>
         taskRunner.run(
-          caption = "Add Contact",
+          caption = "Add Worker",
           op = {
             // Add new items from database
             workersDB.add(worker)
@@ -76,7 +76,7 @@ class WorkersViewModel {
       caption = "Reset DB",
       op = {
         workersDB.clear()
-        workersDB.addSampleContent()
+        //workersDB.addSampleContent()
         // Return items from database
         val updatedItems = workersDB.queryWorkers()
         // Update items on FX thread

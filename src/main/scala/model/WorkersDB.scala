@@ -22,23 +22,27 @@ object WorkersDB {
 
 class WorkersDB{
   private val workers: TableQuery[Workers] = TableQuery[Workers]
-  val db = Database.forConfig("mydb")
   private val sampleWorker =
-    Seq(Worker("4715518977", "Kovba", "Alexey", "Michailovich" ))
+    Seq(Worker("4715518977", "Kovba", "Alexey", "Michailovich"))
   def setup(): Unit = {
-    db.run(workers.schema.create)
+    run(workers.schema.createIfNotExists)
   }
   def clear(): Unit = {
-    db.run(workers.delete)
+    run(workers.delete)
   }
   def addSampleContent(): Unit = {
     add(sampleWorker)
   }
   def queryWorkers(): Seq[Worker] = {
-    Await.result(db.run(workers.result), Duration.Inf)
+    run(workers.result)
   }
   def add(items: Seq[Worker]): Unit = {
-    Await.result(db.run(workers ++= items), Duration.Inf)
+    val qs = items.map { i =>
+      val q = workers.filter { p =>
+        p.pass_id === i.pass
+      }.exists
+    }
+    run(workers ++= items)
   }
   def add(p: Worker): Unit = {
     add(Seq(p))
@@ -51,7 +55,14 @@ class WorkersDB{
       q.delete
     }
 
-    db.run(DBIO.seq(qs: _*))
+    run(DBIO.seq(qs: _*))
   }
-
+  private def run[R](actions: DBIOAction[R, NoStream, Nothing]): R = {
+    val db = Database.forConfig("mydb")
+    try {
+      Await.result(db.run(actions), Duration.Inf)
+    } finally {
+      db.close()
+    }
+  }
 }

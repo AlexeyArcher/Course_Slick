@@ -30,7 +30,7 @@ object AddWorkerDialog {
     dialog.dialogPane().content = new GridPane {
       hgap = 10
       vgap = 10
-      padding = Insets(20, 100, 10, 10)
+      padding = Insets(50, 100, 10, 10)
 
       add(new Label("Pass Id:"), 0, 0)
       add(PassIdTextField , 1, 0)
@@ -38,7 +38,7 @@ object AddWorkerDialog {
       add(SurnameTextField, 1, 1)
       add(new Label("Name:"), 0, 2)
       add(NameField , 1, 2)
-      add(new Label("Patronym:"), 0, 0)
+      add(new Label("Patronym:"), 0, 3)
       add(patronymField , 1, 3)
     }
 
