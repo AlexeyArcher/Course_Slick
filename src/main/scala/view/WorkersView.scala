@@ -4,7 +4,9 @@ import model.Worker
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Parent
+import scalafx.scene.control.TableColumn.CellDataFeatures
 import scalafx.scene.control._
+import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.text.Font
 
@@ -23,6 +25,7 @@ class WorkersView(val model: WorkersViewModel) {
       cellValueFactory = {
         _.value.pass_id
       }
+      cellFactory = TextFieldTableCell.forTableColumn[Worker]()
       prefWidth = 100
     }
     val surNameColumn = new TableColumn[Worker, String] {
@@ -30,6 +33,7 @@ class WorkersView(val model: WorkersViewModel) {
       cellValueFactory = {
         _.value.surname
       }
+      cellFactory = TextFieldTableCell.forTableColumn[Worker]()
       prefWidth = 150
     }
 
@@ -38,6 +42,7 @@ class WorkersView(val model: WorkersViewModel) {
       cellValueFactory = {
         _.value.name
       }
+      cellFactory = TextFieldTableCell.forTableColumn[Worker]()
       prefWidth = 150
     }
 
@@ -45,15 +50,22 @@ class WorkersView(val model: WorkersViewModel) {
       text = "patronym"
       cellValueFactory = {
         _.value.patronym
+
       }
+      cellFactory = TextFieldTableCell.forTableColumn[Worker]()
       prefWidth = 150
     }
 
     // Build the table
+
     new TableView[Worker](model.items) {
+      editable = true
       columns ++= Seq(passIdColumn,surNameColumn, NameColumn, patronymColumn)
       margin = Insets(10, 0, 10, 0)
+
+
     }
+
   }
   model.selectedItems = table.selectionModel.value.selectedItems
   private val addButton = new Button {
@@ -67,10 +79,10 @@ class WorkersView(val model: WorkersViewModel) {
     onAction = _ => model.onRemove()
   }
 
-  private val resetButton = new Button {
+  /*private val resetButton = new Button {
     text = "Reset"
     onAction = _ => model.onReset()
-  }
+  }*/
 
   val view: Parent = {
 
@@ -79,7 +91,7 @@ class WorkersView(val model: WorkersViewModel) {
     }
 
     val buttonBar = new ButtonBar {
-      buttons = Seq(addButton, removeButton, resetButton)
+      buttons = Seq(addButton, removeButton)
     }
 
     new BorderPane {

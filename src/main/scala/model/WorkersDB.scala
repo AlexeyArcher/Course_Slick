@@ -39,7 +39,7 @@ class WorkersDB{
   def add(items: Seq[Worker]): Unit = {
     val qs = items.map { i =>
       val q = workers.filter { p =>
-        p.pass_id === i.pass
+        p.pass_id === i.pass_
       }.exists
     }
     run(workers ++= items)
@@ -50,7 +50,7 @@ class WorkersDB{
   def remove(items: Seq[Worker]): Unit = {
     val qs = items.map { i =>
       val q = workers.filter { p =>
-        p.pass_id === i.pass
+        p.pass_id === i.pass_
       }
       q.delete
     }

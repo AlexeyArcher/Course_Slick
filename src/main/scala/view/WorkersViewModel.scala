@@ -71,7 +71,7 @@ class WorkersViewModel {
     )
   }
 
-  def onReset(): Unit = {
+/*  def onReset(): Unit = {
     taskRunner.run(
       caption = "Reset DB",
       op = {
@@ -86,7 +86,7 @@ class WorkersViewModel {
       }
     )
   }
-
+*/
   private def updateItems(updatedItems: Seq[Worker]): Unit = {
     val toAdd = updatedItems.diff(items)
     val toRemove = items.diff(updatedItems)
