@@ -2,9 +2,9 @@ import scalafx.application.JFXApp
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
 import scalafx.scene.control.Alert.AlertType
-import scalafx.scene.control.{Alert, Label, ProgressIndicator}
+import scalafx.scene.control.{Alert, Label, ProgressIndicator, Tab, TabPane}
 import scalafx.scene.layout.{BorderPane, StackPane, VBox}
-import view.{TaskRunner, WorkersView, WorkersViewModel}
+import view.{RoomsTable, TaskRunner, WorkersTable, WorkersView, WorkersViewModel}
 
 object Main extends JFXApp {
 
@@ -22,47 +22,25 @@ object Main extends JFXApp {
   )
 
   // Create application components
-  private val workersViewModel = new WorkersViewModel()
-  private val workersView = new WorkersView(workersViewModel)
-
-  private val glassPane = new VBox {
-    children = new ProgressIndicator {
-      progress = ProgressIndicator.IndeterminateProgress
-      visible = true
-    }
-    alignment = Pos.Center
-    visible = false
+  private val WorkersTable = new WorkersTable
+  WorkersTable.run
+  private val RoomsTable = new RoomsTable
+  RoomsTable.run
+  val SomeTables = new TabPane
+  val tab1 = new Tab{
+    closable = false
+    text = "Workers"
   }
-
-  private val statusLabel = new Label {
-    maxWidth = Double.MaxValue
-    padding = Insets(0, 10, 10, 10)
+  val tab2 = new Tab{
+    closable = false
+    text = "Rooms"
   }
-
-  private val rootView = new StackPane {
-    children = Seq(
-      new BorderPane {
-        center = workersView.view
-        bottom = statusLabel
-      },
-      glassPane
-    )
-  }
-
+  tab1.content = WorkersTable.rootView
+  tab2.content = RoomsTable.rootView
+  SomeTables.tabs = List(tab1, tab2)
   stage = new JFXApp.PrimaryStage {
-    title = workersView.title
-    scene = new Scene(rootView)
+    title = "David Hilbert Hotel"
+    scene = new Scene(SomeTables)
   }
 
-  private val taskRunner = new TaskRunner(workersView.view, glassPane, statusLabel)
-  workersViewModel.taskRunner = taskRunner
-
-
-  // Initialize database on a separate thread
-  taskRunner.run(
-    caption = "Setup Database",
-    op = {
-      workersViewModel.setUp()
-    }
-  )
 }

@@ -9,7 +9,7 @@ libraryDependencies ++= List(
   "com.typesafe.slick" %% "slick" % "3.3.3",
   "org.scalafx" %% "scalafx" % "16.0.0-R22",
   "mysql" % "mysql-connector-java" % "8.0.23",
-    "org.slf4j" % "slf4j-nop" % "1.7.30",
+  "org.slf4j" % "slf4j-nop" % "1.7.30",
   "com.github.nscala-time" %% "nscala-time" % "2.28.0"
 )
 
