@@ -23,7 +23,7 @@ object CustomersDB {
     def inD = column[LocalDate]("inD")
     def outD = column[LocalDate]("outD")
     def number: Rep[Int] = column[Int]("number")
-    override def * : ProvenShape[Customer] = (pass_id, surname, name, patronym, inD, outD, number) <> (Customer.tupled, Customer.unapply)
+    override def * : ProvenShape[Customer] = (pass_id, surname, name, patronym,inD, outD, number) <> (Customer.tupled, Customer.unapply)
   }
 }
 
@@ -31,7 +31,8 @@ object CustomersDB {
 class CustomersDB{
   private val customers: TableQuery[Customers] = TableQuery[Customers]
   private val sampleCustomer =
-    Seq(Customer("4715518977", "Harrington", "Billy", "Jesus", LocalDate.parse("1969-07-14"), LocalDate.parse("2018-03-02"),69))
+    Seq(Customer("4715518977", "Harrington", "Billy", "Jesus",
+      LocalDate.parse("1969-07-14"), LocalDate.parse("2018-03-02"),69))
   def setup(): Unit = {
     run(customers.schema.createIfNotExists)
   }
