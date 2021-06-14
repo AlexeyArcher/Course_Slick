@@ -11,7 +11,7 @@ import scala.concurrent.duration.Duration
 
 object WorkersDB {
   class Workers(tag: Tag) extends Table[Worker](tag, "Workers") {
-    def pass_id: Rep[String] = column[String]("pass_id")
+    def pass_id: Rep[String] = column[String]("pass_id", O.PrimaryKey)
     def surname: Rep[String] = column[String]("surname")
     def name: Rep[String] = column[String]("name")
     def patronym: Rep[String] =  column[String]("patronym")

@@ -9,7 +9,7 @@ import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.text.Font
 import scalafx.util.converter.DefaultStringConverter
-import utils.imp._
+
 
 
 class RoomsView(val model: RoomsViewModel){
@@ -23,7 +23,8 @@ class RoomsView(val model: RoomsViewModel){
       cellValueFactory = {
         _.value.number
       }
-      //cellFactory = TextFieldTableCell.forTableColumn[Room]()
+
+      cellFactory = {_: TableColumn[Room, Int] => new TextFieldTableCell[Room, Int]()}
       prefWidth = 100
     }
     val posColumn = new TableColumn[Room, Int] {
@@ -31,7 +32,7 @@ class RoomsView(val model: RoomsViewModel){
       cellValueFactory = {
         _.value.pos
       }
-      //cellFactory = TextFieldTableCell.forTableColumn[Room]()
+      cellFactory = {_: TableColumn[Room, Int] => new TextFieldTableCell[Room, Int]()}
       prefWidth = 150
     }
 
@@ -40,7 +41,7 @@ class RoomsView(val model: RoomsViewModel){
       cellValueFactory = {
         _.value.price
       }
-      //cellFactory = TextFieldTableCell.forTableColumn[Room]()
+      cellFactory = {_: TableColumn[Room, Int] => new TextFieldTableCell[Room, Int]()}
       prefWidth = 150
     }
 
@@ -50,7 +51,7 @@ class RoomsView(val model: RoomsViewModel){
         _.value.vacant
 
       }
-      //cellFactory = TextFieldTableCell.forTableColumn[Room]()
+      cellFactory = {_: TableColumn[Room, Int] => new TextFieldTableCell[Room, Int]()}
       prefWidth = 150
     }
 
