@@ -7,46 +7,46 @@ import scalafx.geometry.Insets
 import scalafx.scene.control._
 import scalafx.scene.layout.GridPane
 import scalafx.stage.Window
-import model.Customer
+import model.Journal
 import scala.language.implicitConversions
-
-object AddCustomerDialog {
-  def showAndWait(parentWindow: Window): Option[Customer] = {
+import java.sql.Date
+object AddJournalDialog {
+  def showAndWait(parentWindow: Window): Option[Journal] = {
     // Create the custom dialog.
-    val dialog = new Dialog[Customer]() {
+    val dialog = new Dialog[Journal]() {
       initOwner(parentWindow)
-      title = "Add New Customer"
-      headerText = "Customer Info"
+      title = "Add New Order"
+      headerText = "Order Info"
     }
 
     // Set the button types.
     dialog.dialogPane().buttonTypes = Seq(ButtonType.OK, ButtonType.Cancel)
 
     // Create the username and password labels and fields.
+    val dateInField = new DatePicker()
+    val dateOutField = new DatePicker()
     val PassIdTextField = new TextField()
-    val SurnameTextField = new TextField()
-    val NameField = new TextField()
-    val patronymField = new TextField()
+    val roomField = new TextField()
     dialog.dialogPane().content = new GridPane {
       hgap = 10
       vgap = 10
       padding = Insets(50, 100, 10, 10)
 
-      add(new Label("Pass Id:"), 0, 0)
-      add(PassIdTextField , 1, 0)
-      add(new Label("Surname:"), 0, 1)
-      add(SurnameTextField, 1, 1)
-      add(new Label("Name:"), 0, 2)
-      add(NameField , 1, 2)
-      add(new Label("Patronym:"), 0, 3)
-      add(patronymField , 1, 3)
+      add(new Label("Date of arrival:"), 0, 1)
+      add(dateInField , 1, 1)
+      add(new Label("Date of departure:"), 0, 2)
+      add(dateOutField , 1, 2)
+      add(new Label("PassIdOfMan:"), 0, 3)
+      add(PassIdTextField , 1, 3)
+      add(new Label("Number:"), 0, 4)
+      add(roomField , 1, 4)
     }
 
     // Enable/Disable OK button depending on whether all data was entered.
     val okButton = dialog.dialogPane().lookupButton(ButtonType.OK)
     // Simple validation that sufficient data was entered
     okButton.disable <== (PassIdTextField.text.isEmpty ||
-      SurnameTextField.text.isEmpty || NameField.text.isEmpty)
+      roomField.text.isEmpty)
 
     // Request focus on the first name field by default.
     Platform.runLater(PassIdTextField.requestFocus())
@@ -54,7 +54,7 @@ object AddCustomerDialog {
     // When the OK button is clicked, convert the result to a Person.
     dialog.resultConverter = dialogButton =>
       if (dialogButton == ButtonType.OK)
-        Customer(PassIdTextField.text() , SurnameTextField.text(), NameField.text(), patronymField.text())
+        Journal(None,  Date.valueOf(dateInField.getValue), Date.valueOf(dateOutField.getValue), PassIdTextField.getText, roomField.getText.toInt)
       else
         null
 
@@ -62,7 +62,7 @@ object AddCustomerDialog {
 
     // Clean up result type
     result match {
-      case Some(Customer(id,first,last,patronym)) => Some(Customer(id,first,last,patronym))
+      case Some(Journal(id, dateIn, dateOut, pass_id, room)) => Some(Journal(id, dateIn, dateOut, pass_id, room))
       case _ => None
     }
   }

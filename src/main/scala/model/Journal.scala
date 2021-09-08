@@ -1,12 +1,14 @@
 package model
 import scalafx.beans.property.{ObjectProperty, StringProperty}
+import java.sql.Date
 
-import java.time.LocalDate
-
-case class Journal(num_ : Int, month_ : String, year_ : String, sett_ : Int, days_ : Int){
-  val number = new ObjectProperty[Int](this, "number of room", num_)
-  val mon =  new StringProperty(this, "month", month_)
-  val year =  new StringProperty(this, "year", year_)
-  val setl = new ObjectProperty[Int](this, "numbers of customers", sett_)
-  val days = new ObjectProperty[Int](this, "days are busy", days_)
+/*     def id: Rep[Int] = column[Int]("id", O.AutoInc, O.PrimaryKey)
+    def dateIn: Rep[Date] = column[Date]("dateIn")
+    def dateOut: Rep[Date] =  column[Date]("dateOut")
+    def pass_id: Rep[String] = column[String]("passid of customer")*/
+case class Journal(id_ : Option[Int], dateIn_ : Date, dateOut_ : Date, pass_id_ : String, room_ : Int){
+  val dateIn = new ObjectProperty[Date](this, "Arrive date", dateIn_)
+  val dateOut = new ObjectProperty[Date](this, "Depart date", dateOut_)
+  val pass_id = new StringProperty(this, "Pass id", pass_id_)
+  val room = new ObjectProperty[Int](this, "Room number", room_)
 }

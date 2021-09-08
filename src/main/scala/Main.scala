@@ -1,10 +1,11 @@
+import Main.tab3
 import scalafx.application.JFXApp
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
 import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.control.{Alert, Label, ProgressIndicator, Tab, TabPane}
 import scalafx.scene.layout.{BorderPane, StackPane, VBox}
-import view.{CustomersTable, RoomsTable, TaskRunner, WorkersTable, WorkersView, WorkersViewModel}
+import view.{CustomersTable, JournalsTable, RoomsTable, TaskRunner, WorkersTable, WorkersView, WorkersViewModel}
 
 object Main extends JFXApp {
 
@@ -28,6 +29,8 @@ object Main extends JFXApp {
   RoomsTable.run
   private val CustomersTable = new CustomersTable
   CustomersTable.run
+  private val JorunalsTable = new JournalsTable
+  JorunalsTable.run
   val SomeTables = new TabPane
   val tab1 = new Tab{
     closable = false
@@ -41,10 +44,15 @@ object Main extends JFXApp {
     closable = false
     text = "Customers"
   }
+  val tab4 = new Tab{
+    closable = false
+    text = "Journals"
+  }
   tab1.content = WorkersTable.rootView
   tab2.content = RoomsTable.rootView
   tab3.content = CustomersTable.rootView
-  SomeTables.tabs = List(tab1, tab2, tab3)
+  tab4.content = JorunalsTable.rootView
+  SomeTables.tabs = List(tab1, tab2, tab3, tab4)
   stage = new JFXApp.PrimaryStage {
     title = "David Hilbert named Gorshock Hotel"
     scene = new Scene(SomeTables)

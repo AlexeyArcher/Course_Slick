@@ -5,11 +5,9 @@ import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Label, ProgressIndicator}
 import scalafx.scene.layout.{BorderPane, StackPane, VBox}
 
-
-
-class WorkersTable {
-  private val workersViewModel = new WorkersViewModel()
-  private val workersView = new WorkersView(workersViewModel)
+class JournalsTable {
+  private val journalsViewModel = new JournalsViewModel()
+  private val journalsView = new JournalsView(journalsViewModel)
   val glassPane = new VBox {
     children = new ProgressIndicator {
       progress = ProgressIndicator.IndeterminateProgress
@@ -26,18 +24,18 @@ class WorkersTable {
   val rootView = new StackPane {
     children = Seq(
       new BorderPane {
-        center = workersView.view
+        center = journalsView.view
         bottom = statusLabel
       },
       glassPane
     )
   }
-  private val taskRunner = new TaskRunner(workersView.view, glassPane, statusLabel)
-  workersViewModel.taskRunner = taskRunner
+  private val taskRunner = new TaskRunner(journalsView.view, glassPane, statusLabel)
+  journalsViewModel.taskRunner = taskRunner
   def run = taskRunner.run(
     caption = "Setup Database",
     op = {
-      workersViewModel.setUp()
+      journalsViewModel.setUp()
     }
   )
 }

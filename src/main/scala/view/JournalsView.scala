@@ -1,65 +1,68 @@
 package view
 
-import model.Customer
+import model.Journal
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Parent
-import scalafx.scene.control.TableColumn.CellDataFeatures
 import scalafx.scene.control._
 import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.text.Font
+import java.sql.Date
 
-import java.time.LocalDate
-class CustomersView(val model: CustomersViewModel) {
+class JournalsView(val model: JournalsViewModel) {
 
-  val title = "Customers"
+  val title = "Journals"
 
-  private val table: TableView[Customer] = {
+  private val table: TableView[Journal] = {
     // Define columns
 
-    val passIdColumn = new TableColumn[Customer, String] {
+
+    val inColumn = new TableColumn[Journal, Date] {
+      text = "arrival Date"
+      cellValueFactory = {
+        _.value.dateIn
+
+      }
+
+
+      prefWidth = 150
+    }
+    val outColumn = new TableColumn[Journal, Date] {
+      text = "departure Date"
+      cellValueFactory = {
+        _.value.dateOut
+
+      }
+
+
+      prefWidth = 150
+    }
+    val PassIdColumn = new TableColumn[Journal, String] {
       text = "pass_id"
       cellValueFactory = {
         _.value.pass_id
       }
-      cellFactory = TextFieldTableCell.forTableColumn[Customer]()
+      cellFactory = TextFieldTableCell.forTableColumn[Journal]()
       prefWidth = 100
     }
-    val surNameColumn = new TableColumn[Customer, String] {
-      text = "Surname"
-      cellValueFactory = {
-        _.value.surname
-      }
-      cellFactory = TextFieldTableCell.forTableColumn[Customer]()
-      prefWidth = 150
-    }
 
-    val NameColumn = new TableColumn[Customer, String] {
-      text = "name"
+    val numberColumn = new TableColumn[Journal, Int] {
+      text = "room number"
       cellValueFactory = {
-        _.value.name
-      }
-      cellFactory = TextFieldTableCell.forTableColumn[Customer]()
-      prefWidth = 150
-    }
-
-    val patronymColumn = new TableColumn[Customer, String] {
-      text = "patronym"
-      cellValueFactory = {
-        _.value.patronym
+        _.value.room
 
       }
 
-      cellFactory = TextFieldTableCell.forTableColumn[Customer]()
-      prefWidth = 150
+      cellFactory = {_: TableColumn[Journal, Int] => new TextFieldTableCell[Journal, Int]()}
+      prefWidth = 100
     }
 
     // Build the table
 
-    new TableView[Customer](model.items) {
+    new TableView[Journal](model.items) {
       editable = true
-      columns ++= Seq(passIdColumn,surNameColumn, NameColumn, patronymColumn)
+      columns ++= Seq(inColumn, outColumn, PassIdColumn, numberColumn)
       margin = Insets(10, 0, 10, 0)
 
 
