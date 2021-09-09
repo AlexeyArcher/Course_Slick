@@ -8,7 +8,7 @@ import slick.lifted.{ProvenShape, Tag}
 import scala.concurrent.{Await, Future}
 import slick.jdbc.MySQLProfile.api._
 import java.sql.Date
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration._
 
 
 object JournalDB {
@@ -56,7 +56,7 @@ class JournalDB{
   private def run[R](actions: DBIOAction[R, NoStream, Nothing]): R = {
     val db = Database.forConfig("mydb")
     try {
-      Await.result(db.run(actions), Duration.Inf)
+      Await.result(db.run(actions), 2.seconds)
     } finally {
       db.close()
     }
