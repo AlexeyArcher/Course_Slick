@@ -1,6 +1,5 @@
 package model
 
-import java.time.LocalDate
 import scalafx.beans.property.{ObjectProperty, StringProperty}
 case class Customer(pass_ : Int, sur_ : String, first_ : String, pat_ : String) {
   val pass_id = new ObjectProperty[Int](this, "pass_id", pass_)

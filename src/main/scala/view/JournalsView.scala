@@ -9,17 +9,12 @@ import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.text.Font
 
-import java.sql.Date
-import java.time.LocalDate
 import org.joda.time.{ LocalDate => JodaDate}
 class JournalsView(val model: JournalsViewModel) {
 
   val title = "Journals"
 
   private val table: TableView[Journal] = {
-    // Define columns
-
-
     val inColumn = new TableColumn[Journal, JodaDate] {
       text = "arrival Date"
       cellValueFactory = {
@@ -60,7 +55,6 @@ class JournalsView(val model: JournalsViewModel) {
       prefWidth = 100
     }
 
-    // Build the table
 
     new TableView[Journal](model.items) {
       editable = true
@@ -87,10 +81,6 @@ class JournalsView(val model: JournalsViewModel) {
     onAction = _ => model.onQuery()
   }
 
-  /*private val resetButton = new Button {
-    text = "Reset"
-    onAction = _ => model.onReset()
-  }*/
 
   val view: Parent = {
 

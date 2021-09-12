@@ -1,15 +1,12 @@
 
 import scalafx.application.JFXApp3
-import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
 import scalafx.scene.control.Alert.AlertType
-import scalafx.scene.control.{Alert, Label, ProgressIndicator, Tab, TabPane}
-import scalafx.scene.layout.{BorderPane, StackPane, VBox}
-import view.{CustomersTable, JournalsTable, RoomsTable, TaskRunner, WorkersTable}
+import scalafx.scene.control.{Alert, Tab, TabPane}
+import view.{CustomersTable, JournalsTable, RoomsTable, WorkersTable}
 
 object Main extends JFXApp3 {
 
-  // Catch unhandled exceptions on FX Application thread
   Thread.currentThread().setUncaughtExceptionHandler(
     (_: Thread, ex: Throwable) => {
       ex.printStackTrace()
@@ -22,7 +19,6 @@ object Main extends JFXApp3 {
     }
   )
   override def start(): Unit = {
-    // Create application components
 
     val WorkersTable = new WorkersTable
     WorkersTable.run

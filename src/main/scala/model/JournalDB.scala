@@ -10,9 +10,8 @@ import slick.jdbc.MySQLProfile.api._
 
 import java.sql.{Date, Timestamp => Times}
 import org.joda.time.{LocalDate => JodaDate}
-import slick.lifted.MappedToBase.mappedToIsomorphism
 
-import java.time.{Month, Year, YearMonth, LocalDate => Ld}
+import java.time.{YearMonth, LocalDate => Ld}
 import scala.concurrent.duration.Duration
 
 

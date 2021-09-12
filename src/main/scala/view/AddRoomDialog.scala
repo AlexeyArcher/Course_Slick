@@ -26,7 +26,6 @@ object AddRoomDialog {
     val NumTextField = new TextField()
     val PosTextField = new TextField()
     val PriceTextField = new TextField()
-    val vacantTextField = new TextField()
     dialog.dialogPane().content = new GridPane {
       hgap = 10
       vgap = 10
@@ -38,15 +37,13 @@ object AddRoomDialog {
       add(PosTextField, 1, 1)
       add(new Label("price per night"), 0, 2)
       add(PriceTextField , 1, 2)
-      add(new Label("vacant beds in room:"), 0, 3)
-      add(vacantTextField , 1, 3)
     }
 
     // Enable/Disable OK button depending on whether all data was entered.
     val okButton = dialog.dialogPane().lookupButton(ButtonType.OK)
     // Simple validation that sufficient data was entered
     okButton.disable <== (NumTextField.text.isEmpty ||
-      PosTextField.text.isEmpty || PriceTextField.text.isEmpty || vacantTextField.text.isEmpty)
+      PosTextField.text.isEmpty || PriceTextField.text.isEmpty)
 
     // Request focus on the first name field by default.
     Platform.runLater(NumTextField.requestFocus())
@@ -54,7 +51,7 @@ object AddRoomDialog {
     // When the OK button is clicked, convert the result to a Person.
     dialog.resultConverter = dialogButton =>
       if (dialogButton == ButtonType.OK)
-        Room(NumTextField.text().toInt , PosTextField.text().toInt, PriceTextField.text().toInt, vacantTextField.text().toInt)
+        Room(NumTextField.text().toInt , PosTextField.text().toInt, PriceTextField.text().toInt)
       else
         null
 
@@ -62,7 +59,7 @@ object AddRoomDialog {
 
     // Clean up result type
     result match {
-      case Some(Room(num, pos, price, vacantBed)) => Some(Room(num, pos, price, vacantBed))
+      case Some(Room(num, pos, price)) => Some(Room(num, pos, price))
       case _ => None
     }
   }

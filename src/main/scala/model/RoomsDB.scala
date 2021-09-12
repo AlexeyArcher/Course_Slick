@@ -15,8 +15,7 @@ object RoomsDB {
     def number: Rep[Int] = column[Int]("number of room", O.PrimaryKey)
     def pos: Rep[Int] = column[Int]("beds in room")
     def price: Rep[Int] = column[Int]("price per night")
-    def vacantbeds: Rep[Int] =  column[Int]("vacant bed")
-    override def * : ProvenShape[Room] = (number, pos, price, vacantbeds) <> (Room.tupled, Room.unapply)
+    override def * : ProvenShape[Room] = (number, pos, price) <> (Room.tupled, Room.unapply)
   }
 }
 
@@ -24,7 +23,7 @@ object RoomsDB {
 class RoomsDB{
   private val rooms: TableQuery[Rooms] = TableQuery[Rooms]
   private val sampleRoom =
-    Seq(Room(101, 1, 1984, 1))
+    Seq(Room(101, 1, 1984))
   def setup(): Unit = {
     run(rooms.schema.createIfNotExists)
   }
@@ -38,10 +37,7 @@ class RoomsDB{
     run(rooms.result)
   }
   def add(items: Seq[Room]): Unit = {
-    /*val qs = items.map { i =>
-      val q = rooms.filter { p =>
-        true}
-    }*/
+
     run(rooms ++= items)
   }
 

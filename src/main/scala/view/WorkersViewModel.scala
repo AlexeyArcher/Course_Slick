@@ -15,7 +15,6 @@ class WorkersViewModel {
   val parentWindow: ObjectProperty[Window] = ObjectProperty[Window](null.asInstanceOf[Window])
   val items: ObservableBuffer[Worker] = new ObservableBuffer[Worker]()
 
-  // Read-only collection of rows selected in the table view
   var _selectedItems: ObservableBuffer[Worker] = _
   def selectedItems: ObservableBuffer[Worker] = _selectedItems
   def selectedItems_=(v: ObservableBuffer[Worker]): Unit = {
@@ -42,11 +41,8 @@ class WorkersViewModel {
         taskRunner.run(
           caption = "Add Worker",
           op = {
-            // Add new items from database
             workersDB.add(worker)
-            // Return items from database
             val updatedItems = workersDB.queryWorkers()
-            // Update items on FX thread
             Platform.runLater {
               updateItems(updatedItems)
             }
@@ -61,9 +57,7 @@ class WorkersViewModel {
       caption = "Remove Selection",
       op = {
         workersDB.remove(selectedItems.toSeq)
-        // Return items from database
         val updatedItems = workersDB.queryWorkers()
-        // Update items on FX thread
         Platform.runLater {
           updateItems(updatedItems)
         }
@@ -71,22 +65,7 @@ class WorkersViewModel {
     )
   }
 
-/*  def onReset(): Unit = {
-    taskRunner.run(
-      caption = "Reset DB",
-      op = {
-        workersDB.clear()
-        //workersDB.addSampleContent()
-        // Return items from database
-        val updatedItems = workersDB.queryWorkers()
-        // Update items on FX thread
-        Platform.runLater {
-          updateItems(updatedItems)
-        }
-      }
-    )
-  }
-*/
+
   private def updateItems(updatedItems: Seq[Worker]): Unit = {
     val toAdd = updatedItems.diff(items)
     val toRemove = items.diff(updatedItems)

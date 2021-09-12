@@ -13,8 +13,6 @@ class RoomsViewModel {
 
   val parentWindow: ObjectProperty[Window] = ObjectProperty[Window](null.asInstanceOf[Window])
   val items: ObservableBuffer[Room] = new ObservableBuffer[Room]()
-
-  // Read-only collection of rows selected in the table view
   var _selectedItems: ObservableBuffer[Room] = _
   def selectedItems: ObservableBuffer[Room] = _selectedItems
   def selectedItems_=(v: ObservableBuffer[Room]): Unit = {

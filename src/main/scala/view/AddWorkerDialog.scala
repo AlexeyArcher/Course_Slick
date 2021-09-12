@@ -12,17 +12,14 @@ import model.Worker
 
 object AddWorkerDialog {
   def showAndWait(parentWindow: Window): Option[Worker] = {
-    // Create the custom dialog.
     val dialog = new Dialog[Worker]() {
       initOwner(parentWindow)
       title = "Add New Worker"
       headerText = "Worker Info"
     }
 
-    // Set the button types.
     dialog.dialogPane().buttonTypes = Seq(ButtonType.OK, ButtonType.Cancel)
 
-    // Create the username and password labels and fields.
     val PassIdTextField = new TextField()
     val SurnameTextField = new TextField()
     val NameField = new TextField()
@@ -42,25 +39,20 @@ object AddWorkerDialog {
       add(patronymField , 1, 3)
     }
 
-    // Enable/Disable OK button depending on whether all data was entered.
     val okButton = dialog.dialogPane().lookupButton(ButtonType.OK)
-    // Simple validation that sufficient data was entered
     okButton.disable <== (PassIdTextField.text.isEmpty ||
       SurnameTextField.text.isEmpty || NameField.text.isEmpty)
 
-    // Request focus on the first name field by default.
     Platform.runLater(PassIdTextField.requestFocus())
 
-    // When the OK button is clicked, convert the result to a Person.
     dialog.resultConverter = dialogButton =>
       if (dialogButton == ButtonType.OK)
-        Worker(PassIdTextField.text() , SurnameTextField.text(), NameField.text(), patronymField.text())
+        Worker(PassIdTextField.text().toInt , SurnameTextField.text(), NameField.text(), patronymField.text())
       else
         null
 
     val result = dialog.showAndWait()
 
-    // Clean up result type
     result match {
       case Some(Worker(id,first,last,patronym)) => Some(Worker(id,first,last,patronym))
       case _ => None

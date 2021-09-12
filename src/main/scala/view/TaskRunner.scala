@@ -18,7 +18,6 @@ class TaskRunner(mainView: Node,
       glassPane.visible = progressEnabled
     }
 
-    // Indicate task in progress
     Platform.runLater {
       showProgress(true)
       statusLabel.text = caption
@@ -31,7 +30,6 @@ class TaskRunner(mainView: Node,
       override def succeeded(): Unit = {
         showProgress(false)
         statusLabel.text = caption + " - Done."
-        // Do callback, of defined
       }
       override def failed(): Unit = {
 
@@ -39,7 +37,6 @@ class TaskRunner(mainView: Node,
         statusLabel.text = caption + " - Failed."
         val t = Option(getException)
         t.foreach(_.printStackTrace())
-        // Show error message
         new Alert(AlertType.Error) {
           initOwner(owner)
           title = caption

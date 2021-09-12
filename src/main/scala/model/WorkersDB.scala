@@ -11,7 +11,7 @@ import scala.concurrent.duration.Duration
 
 object WorkersDB {
   class Workers(tag: Tag) extends Table[Worker](tag, "Workers") {
-    def pass_id: Rep[String] = column[String]("pass_id", O.PrimaryKey)
+    def pass_id: Rep[Int] = column[Int]("pass_id", O.PrimaryKey)
     def surname: Rep[String] = column[String]("surname")
     def name: Rep[String] = column[String]("name")
     def patronym: Rep[String] =  column[String]("patronym")
@@ -23,7 +23,7 @@ object WorkersDB {
 class WorkersDB{
   private val workers: TableQuery[Workers] = TableQuery[Workers]
   private val sampleWorker =
-    Seq(Worker("4715518977", "Kovba", "Alexey", "Michailovich"))
+    Seq(Worker(4715, "Kovba", "Alexey", "Michailovich"))
   def setup(): Unit = {
     run(workers.schema.createIfNotExists)
   }
@@ -37,11 +37,6 @@ class WorkersDB{
     run(workers.result)
   }
   def add(items: Seq[Worker]): Unit = {
-    val qs = items.map { i =>
-      val q = workers.filter { p =>
-        p.pass_id === i.pass_
-      }.exists
-    }
     run(workers ++= items)
   }
   def add(p: Worker): Unit = {

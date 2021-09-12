@@ -1,6 +1,5 @@
 package model
-import scalafx.beans.property.{ObjectProperty, StringProperty}
-import java.sql.Date
+import scalafx.beans.property.ObjectProperty
 import org.joda.time.LocalDate
 
 case class Journal(id_ : Option[Int], dateIn_ : LocalDate, dateOut_ : LocalDate, pass_id_ : Int, room_ : Int){

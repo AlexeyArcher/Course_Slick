@@ -4,7 +4,6 @@ import model.Worker
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Parent
-import scalafx.scene.control.TableColumn.CellDataFeatures
 import scalafx.scene.control._
 import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.layout.BorderPane
@@ -18,14 +17,13 @@ class WorkersView(val model: WorkersViewModel) {
   val title = "Workers"
 
   private val table: TableView[Worker] = {
-    // Define columns
 
-    val passIdColumn = new TableColumn[Worker, String] {
+    val passIdColumn = new TableColumn[Worker, Int] {
       text = "pass_id"
       cellValueFactory = {
         _.value.pass_id
       }
-      cellFactory = TextFieldTableCell.forTableColumn[Worker]()
+      cellFactory = {_: TableColumn[Worker, Int] => new TextFieldTableCell[Worker, Int]()}
       prefWidth = 100
     }
     val surNameColumn = new TableColumn[Worker, String] {
@@ -56,7 +54,6 @@ class WorkersView(val model: WorkersViewModel) {
       prefWidth = 150
     }
 
-    // Build the table
 
     new TableView[Worker](model.items) {
       editable = true
@@ -79,10 +76,6 @@ class WorkersView(val model: WorkersViewModel) {
     onAction = _ => model.onRemove()
   }
 
-  /*private val resetButton = new Button {
-    text = "Reset"
-    onAction = _ => model.onReset()
-  }*/
 
   val view: Parent = {
 

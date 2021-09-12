@@ -4,13 +4,10 @@ import model.{Customer, Journal}
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Parent
-import scalafx.scene.control.TableColumn.CellDataFeatures
 import scalafx.scene.control._
 import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.text.Font
-import org.joda.time.{ LocalDate => JodaDate}
-import java.time.LocalDate
 class CustomersView(val model: CustomersViewModel) {
 
   val title = "Customers"
@@ -55,7 +52,6 @@ class CustomersView(val model: CustomersViewModel) {
       prefWidth = 150
     }
 
-    // Build the table
 
     new TableView[Customer](model.items) {
       editable = true

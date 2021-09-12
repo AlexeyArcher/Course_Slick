@@ -14,8 +14,6 @@ class CustomersViewModel {
 
   val parentWindow: ObjectProperty[Window] = ObjectProperty[Window](null.asInstanceOf[Window])
   val items: ObservableBuffer[Customer] = new ObservableBuffer[Customer]()
-
-  // Read-only collection of rows selected in the table view
   var _selectedItems: ObservableBuffer[Customer] = _
   def selectedItems: ObservableBuffer[Customer] = _selectedItems
   def selectedItems_=(v: ObservableBuffer[Customer]): Unit = {
@@ -42,11 +40,8 @@ class CustomersViewModel {
         taskRunner.run(
           caption = "Add Customer",
           op = {
-            // Add new items from database
             customersDB.add(customer)
-            // Return items from database
             val updatedItems = customersDB.queryCustomers()
-            // Update items on FX thread
             Platform.runLater {
               updateItems(updatedItems)
             }

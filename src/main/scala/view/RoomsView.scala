@@ -45,21 +45,13 @@ class RoomsView(val model: RoomsViewModel){
       prefWidth = 150
     }
 
-    val vacantColumn = new TableColumn[Room, Int] {
-      text = "vacantBeds"
-      cellValueFactory = {
-        _.value.vacant
 
-      }
-      cellFactory = {_: TableColumn[Room, Int] => new TextFieldTableCell[Room, Int]()}
-      prefWidth = 150
-    }
 
     // Build the table
 
     new TableView[Room](model.items) {
       editable = true
-      columns ++= Seq(numberColumn, posColumn, PriceColumn, vacantColumn)
+      columns ++= Seq(numberColumn, posColumn, PriceColumn)
       margin = Insets(10, 0, 10, 0)
 
 

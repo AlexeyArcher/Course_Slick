@@ -61,9 +61,7 @@ class CustomersDB{
 
     run(DBIO.seq(qs: _*))
   }
-  def checks_by_date(mon: String, year: String, room: Int): Unit = {
-      
-  }
+
   private def run[R](actions: DBIOAction[R, NoStream, Nothing]): R = {
     val db = Database.forConfig("mydb")
     try {

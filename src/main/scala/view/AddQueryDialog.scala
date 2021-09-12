@@ -7,11 +7,8 @@ import scalafx.geometry.Insets
 import scalafx.scene.control._
 import scalafx.scene.layout.GridPane
 import scalafx.stage.Window
-import model.Journal
-import scalafx.beans.property.BooleanProperty
 import org.joda.time.{ LocalDate => JodaDate}
 import java.time.{LocalDate => Ld}
-import java.sql.Date
 
 object AddQueryDialog {
   def showAndWait(parentWindow: Window): Option[(Int, Int, Int)] = {
@@ -27,7 +24,6 @@ object AddQueryDialog {
     val roomField = new TextField()
     val yearField = new TextField()
     val monthField = new TextField()
-    println(dialog.dialogPane.asString())
     dialog.dialogPane().content = new GridPane {
       hgap = 20
       vgap = 20
