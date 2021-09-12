@@ -1,11 +1,12 @@
 package view
 
-import model.{Journal,JournalDB}
+import model.{Journal, JournalDB}
 import scalafx.application.Platform
 import scalafx.beans.property.{BooleanProperty, ObjectProperty}
 import scalafx.collections.ObservableBuffer
-import scalafx.stage.Window
-
+import scalafx.scene.control.Alert
+import scalafx.stage.{Stage, Window}
+import scalafx.scene.control.Alert.AlertType
 class JournalsViewModel {
 
   var taskRunner: TaskRunner = _
@@ -13,8 +14,8 @@ class JournalsViewModel {
   private val journalDB = new JournalDB()
 
   val parentWindow: ObjectProperty[Window] = ObjectProperty[Window](null.asInstanceOf[Window])
-  val items: ObservableBuffer[Journal] = new ObservableBuffer[Journal]()
 
+  val items: ObservableBuffer[Journal] = new ObservableBuffer[Journal]()
   // Read-only collection of rows selected in the table view
   var _selectedItems: ObservableBuffer[Journal] = _
   def selectedItems: ObservableBuffer[Journal] = _selectedItems
@@ -69,6 +70,33 @@ class JournalsViewModel {
         }
       }
     )
+  }
+  def onQuery(): Unit = {
+
+    val result = AddQueryDialog.showAndWait(parentWindow.value)
+
+    result match {
+      case Some((room: Int, year: Int, month: Int)) =>
+        taskRunner.run(
+          caption = "fiil bill",
+          op = {
+            // Add new items from database
+            // Return items from database
+            val updatedItems = journalDB.queryJournals()
+            // Update items on FX thread
+            Platform.runLater {
+              val dialog = new Alert(AlertType.Information) {
+                title = "Query result"
+                headerText = ""
+                contentText = journalDB.the_worst_query_in_my_life(room, year, month).mkString
+
+              }
+              dialog.showAndWait()
+            }
+          }
+        )
+      case _ =>
+    }
   }
 
   /*  def onReset(): Unit = {

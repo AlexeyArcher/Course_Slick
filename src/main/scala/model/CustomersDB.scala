@@ -15,7 +15,7 @@ object CustomersDB {
     d => d.toLocalDate
   )
   class Customers(tag: Tag) extends Table[Customer](tag, "Customers") {
-    def pass_id: Rep[String] = column[String]("pass_id", O.PrimaryKey)
+    def pass_id: Rep[Int] = column[Int]("pass_id", O.PrimaryKey)
     def surname: Rep[String] = column[String]("surname")
     def name: Rep[String] = column[String]("name")
     def patronym: Rep[String] =  column[String]("patronym")
@@ -27,7 +27,7 @@ object CustomersDB {
 class CustomersDB{
   private val customers: TableQuery[Customers] = TableQuery[Customers]
   private val sampleCustomer =
-    Seq(Customer("88005553535", "Harrington", "Billy", "Jesus"))
+    Seq(Customer(8800555, "Harrington", "Billy", "Jesus"))
   def setup(): Unit = {
     run(customers.schema.createIfNotExists)
   }

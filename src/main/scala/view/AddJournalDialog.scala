@@ -8,8 +8,11 @@ import scalafx.scene.control._
 import scalafx.scene.layout.GridPane
 import scalafx.stage.Window
 import model.Journal
-import scala.language.implicitConversions
+import scalafx.beans.property.BooleanProperty
+import org.joda.time.{ LocalDate => JodaDate}
+import java.time.{LocalDate => Ld}
 import java.sql.Date
+
 object AddJournalDialog {
   def showAndWait(parentWindow: Window): Option[Journal] = {
     // Create the custom dialog.
@@ -18,7 +21,8 @@ object AddJournalDialog {
       title = "Add New Order"
       headerText = "Order Info"
     }
-
+    implicit def localdatetojoda(local: Ld): JodaDate
+    = new JodaDate(local.getYear, local.getMonthValue, local.getDayOfMonth)
     // Set the button types.
     dialog.dialogPane().buttonTypes = Seq(ButtonType.OK, ButtonType.Cancel)
 
@@ -45,8 +49,9 @@ object AddJournalDialog {
     // Enable/Disable OK button depending on whether all data was entered.
     val okButton = dialog.dialogPane().lookupButton(ButtonType.OK)
     // Simple validation that sufficient data was entered
-    okButton.disable <== (PassIdTextField.text.isEmpty ||
-      roomField.text.isEmpty)
+
+    okButton.disable <== PassIdTextField.text.isEmpty ||
+      roomField.text.isEmpty
 
     // Request focus on the first name field by default.
     Platform.runLater(PassIdTextField.requestFocus())
@@ -54,7 +59,7 @@ object AddJournalDialog {
     // When the OK button is clicked, convert the result to a Person.
     dialog.resultConverter = dialogButton =>
       if (dialogButton == ButtonType.OK)
-        Journal(None,  Date.valueOf(dateInField.getValue), Date.valueOf(dateOutField.getValue), PassIdTextField.getText, roomField.getText.toInt)
+        Journal(None, dateInField.getValue, dateOutField.getValue, PassIdTextField.getText.toInt, roomField.getText.toInt)
       else
         null
 

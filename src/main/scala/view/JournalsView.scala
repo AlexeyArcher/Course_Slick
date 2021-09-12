@@ -8,8 +8,10 @@ import scalafx.scene.control._
 import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.text.Font
-import java.sql.Date
 
+import java.sql.Date
+import java.time.LocalDate
+import org.joda.time.{ LocalDate => JodaDate}
 class JournalsView(val model: JournalsViewModel) {
 
   val title = "Journals"
@@ -18,7 +20,7 @@ class JournalsView(val model: JournalsViewModel) {
     // Define columns
 
 
-    val inColumn = new TableColumn[Journal, Date] {
+    val inColumn = new TableColumn[Journal, JodaDate] {
       text = "arrival Date"
       cellValueFactory = {
         _.value.dateIn
@@ -28,7 +30,7 @@ class JournalsView(val model: JournalsViewModel) {
 
       prefWidth = 150
     }
-    val outColumn = new TableColumn[Journal, Date] {
+    val outColumn = new TableColumn[Journal, JodaDate] {
       text = "departure Date"
       cellValueFactory = {
         _.value.dateOut
@@ -38,12 +40,12 @@ class JournalsView(val model: JournalsViewModel) {
 
       prefWidth = 150
     }
-    val PassIdColumn = new TableColumn[Journal, String] {
+    val PassIdColumn = new TableColumn[Journal, Int] {
       text = "pass_id"
       cellValueFactory = {
         _.value.pass_id
       }
-      cellFactory = TextFieldTableCell.forTableColumn[Journal]()
+      cellFactory = {_: TableColumn[Journal, Int] => new TextFieldTableCell[Journal, Int]()}
       prefWidth = 100
     }
 
@@ -80,6 +82,10 @@ class JournalsView(val model: JournalsViewModel) {
     disable <== !model.canRemoveRow
     onAction = _ => model.onRemove()
   }
+  private val queryButton = new Button {
+    text = "Query"
+    onAction = _ => model.onQuery()
+  }
 
   /*private val resetButton = new Button {
     text = "Reset"
@@ -93,7 +99,7 @@ class JournalsView(val model: JournalsViewModel) {
     }
 
     val buttonBar = new ButtonBar {
-      buttons = Seq(addButton, removeButton)
+      buttons = Seq(addButton, removeButton, queryButton)
     }
 
     new BorderPane {

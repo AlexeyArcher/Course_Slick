@@ -1,6 +1,6 @@
 package view
 
-import model.Customer
+import model.{Customer, Journal}
 import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Parent
@@ -9,7 +9,7 @@ import scalafx.scene.control._
 import scalafx.scene.control.cell.TextFieldTableCell
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.text.Font
-
+import org.joda.time.{ LocalDate => JodaDate}
 import java.time.LocalDate
 class CustomersView(val model: CustomersViewModel) {
 
@@ -18,12 +18,12 @@ class CustomersView(val model: CustomersViewModel) {
   private val table: TableView[Customer] = {
     // Define columns
 
-    val passIdColumn = new TableColumn[Customer, String] {
+    val passIdColumn = new TableColumn[Customer, Int] {
       text = "pass_id"
       cellValueFactory = {
         _.value.pass_id
       }
-      cellFactory = TextFieldTableCell.forTableColumn[Customer]()
+      cellFactory = {_: TableColumn[Customer, Int] => new TextFieldTableCell[Customer, Int]()}
       prefWidth = 100
     }
     val surNameColumn = new TableColumn[Customer, String] {

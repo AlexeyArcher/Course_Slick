@@ -8,9 +8,11 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit", "-encoding", 
 libraryDependencies ++= List(
   "com.typesafe.slick" %% "slick" % "3.3.3",
   "org.scalafx" %% "scalafx" % "16.0.0-R22",
-  "mysql" % "mysql-connector-java" % "8.0.23",
+  "mysql" % "mysql-connector-java" % "8.0.25",
   "org.slf4j" % "slf4j-nop" % "1.7.30",
-  "com.github.nscala-time" %% "nscala-time" % "2.28.0"
+  "com.github.tototoshi" % "slick-joda-mapper_2.13" % "2.4.2",
+  "joda-time" % "joda-time" % "2.7",
+  "org.joda" % "joda-convert" % "1.7"
 )
 
 val javafxModules = Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")

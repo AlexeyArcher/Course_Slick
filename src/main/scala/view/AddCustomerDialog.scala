@@ -54,7 +54,7 @@ object AddCustomerDialog {
     // When the OK button is clicked, convert the result to a Person.
     dialog.resultConverter = dialogButton =>
       if (dialogButton == ButtonType.OK)
-        Customer(PassIdTextField.text() , SurnameTextField.text(), NameField.text(), patronymField.text())
+        Customer(PassIdTextField.text().toInt , SurnameTextField.text(), NameField.text(), patronymField.text())
       else
         null
 
