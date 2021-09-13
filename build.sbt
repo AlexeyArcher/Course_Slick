@@ -10,9 +10,12 @@ libraryDependencies ++= List(
   "org.scalafx" %% "scalafx" % "16.0.0-R22",
   "mysql" % "mysql-connector-java" % "8.0.25",
   "org.slf4j" % "slf4j-nop" % "1.7.30",
-  "com.github.tototoshi" % "slick-joda-mapper_2.13" % "2.4.2",
   "joda-time" % "joda-time" % "2.7",
-  "org.joda" % "joda-convert" % "1.7"
+  "org.joda" % "joda-convert" % "1.7",
+  "org.scalactic" % "scalactic_2.13" % "3.2.9",
+  "org.scalatest" % "scalatest_2.13" % "3.2.9" % "test",
+  "com.typesafe.slick" % "slick-testkit_2.13" % "3.3.3" % "test"
+
 )
 
 val javafxModules = Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
@@ -24,3 +27,4 @@ val osName = System.getProperty("os.name") match {
 }
 libraryDependencies ++= javafxModules.map(m => "org.openjfx" % s"javafx-$m" % "16" classifier osName)
 fork := true
+logBuffered in Test := false
